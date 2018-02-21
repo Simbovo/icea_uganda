@@ -1,0 +1,10 @@
+### Laravel template
+/bootstrap/compiled.php
+.env.*.php
+.env.php
+.env
+### Phalcon template
+/cache/
+/config/development/
+
+# Created by .ignore support plugin (hsz.mobi)

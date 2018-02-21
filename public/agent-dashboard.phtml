@@ -1,0 +1,58 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Allan Wiz
+ * Date: 03/21/16
+ * Time: 11:17 PM
+ */
+$agent_ctl = new app\application\controller\agentController();
+$feeds  = new application\controller\feedsController();
+
+$client_count = count($agent_ctl->agentClients($_SESSION['ref_no']), 1);
+$client_enquiries = count($feeds->agentFeedsDetails($_SESSION['ref_no']), 1);
+?>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Your Clients</span>
+                <span class="info-box-number"><?= $client_count; ?></span>
+                <a href="agent-clients" class="info-box-more">More info <span class="fa fa-arrow-right"></span></a>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Clients' Enquiries</span>
+                <span class="info-box-number"><?= $client_enquiries; ?></span>
+                <a href="agent-cust-feed" class="info-box-more">More info <span class="fa fa-arrow-right"></span></a>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Fund Performance</span>
+                <span class="info-box-number">760</span>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-person-outline"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Profile</span>
+                <span class="info-box-number">''</span>
+                <a href="agent-profile" class="info-box-more">More info <span class="fa fa-arrow-right"></span></a>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->

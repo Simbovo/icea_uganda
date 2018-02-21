@@ -1,0 +1,13 @@
+{
+    "autoload":{
+        "classmap":[
+                "app/application/controller",
+                "app/application/model",
+                "app/application/library"
+        ]
+    },
+    "require": {
+        "rollbar/rollbar": "~1.0.0-beta",
+        "php-amqplib/php-amqplib": "2.5.*"
+    }
+}
