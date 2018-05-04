@@ -9,7 +9,7 @@
 //Include the header file
 
 include('header.php');
-use app\application\model\DbConnection;
+use application\model\DbConnection;
 
 $conn = DbConnection::getInstance();
 
@@ -54,7 +54,7 @@ try {
                                         <option value="">---Select Fund Type---</option>
                                         <?php
                                         foreach ($result as $data) {
-                                            echo "<option value='" . $data->DESCRIPT . "'>" . $data->DESCRIPT . "</option>";
+                                            echo "<option value='" . $data->descript . "'>" . $data->descript . "</option>";
                                         }
                                         ?>
                                     </select>
@@ -128,7 +128,7 @@ try {
         $("#report-Form").submit(function () {
             $.ajax({
                 type: 'POST',
-                url: '../helpers/transactionReportHelper.php',
+                url: "../helpers/transactionReportHelper",     // '../helpers/transactionReportHelper.php',
                 data: $("#report-Form").serialize(),
                 error: function (error) {
                     console.log(error);

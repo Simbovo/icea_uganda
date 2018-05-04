@@ -40,6 +40,7 @@ if ($is_registered) {
             $data = $lib->cleanInputs($_POST);
             $reg_results = $obj->member_registration_v2(json_encode($data));
             echo $reg_results;
+           // var_dump($reg_results);
             break;
         case 'nominees': //joint/group member nominiees
             $data = $lib->cleanInputs($_POST);

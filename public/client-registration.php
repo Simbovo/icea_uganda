@@ -266,7 +266,7 @@ $bank_data = $data_ctl->getBankDetails();
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="control-label" for="text">Physical location</label>
-                                            <input type="text" name="pLocation" pattern="[A-Za-z]{1,}"
+                                            <input type="text" name="pLocation" 
                                                    class="form-control" id="pLocation"
                                                    data-error="Location should not contain numerical values."
                                                    required>

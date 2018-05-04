@@ -27,10 +27,11 @@ $_SESSION['comp_name'] = $company_name;
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link rel="icon"
           type="image/gif"
-          href="../assets/images/favicon.gif"/>
+          href="../assets/images/favicon.ico"/>
     <title><?php echo $company_name; ?></title>
     <!-- Bootstrap 3.3.4 -->
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+   
     <!-- Font Awesome Icons -->
     <link href="../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <!-- Theme style -->
@@ -40,89 +41,17 @@ $_SESSION['comp_name'] = $company_name;
           href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
     <!-- iCheck -->
     <link href="../assets/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css"/>
-    <style type="text/css">
-        #login {
-            /*background: url(http://lorempixel.com/1920/1920/city/9/) no-repeat no-repeat center center fixed;*/
-            height: 300px;
-            border-radius: 2px 2px 5px 5px;
-            padding: 10px 20px 20px 20px;
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-            padding-bottom: 80px;
-            padding-right: 20px;
-            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-
-        #login-form {
-            border-radius: 2px 2px 5px 5px;
-            padding: 10px 20px 20px 20px;
-            width: 100%;
-            max-width: 400px;
-            background: #ffffff;
-            position: relative;
-            padding-bottom: 80px;
-            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
-            margin: 0 auto;
-        }
-
-        #my-panel {
-            border-radius: 2px 2px 5px 5px;
-            padding: 10px 20px 20px 20px;
-            background: #ffffff;
-            max-height: 100%;
-            box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000;
-            /*box-shadow: 12px 0 15px -4px rgba(153, 54, 31, 0.85), -12px 0 8px -4px rgba(31, 73, 125, 0.8);*/
-        }
-        #log{
-            font-family: "Times New Roman", Georgia, Serif;
-        }
-
-        span.marquee-item{
-            background-color: #e00;
-            color: #fff;
-            padding: 5px;
-            border-radius: 10px;
-            margin:5px;
-        }
-        body {
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-
-        .panel-default {
-            opacity: 0.9;
-            margin-top:30px;
-        }
-        .form-group.last { margin-bottom:0px; }
-        .logo{
-            align-self: center; padding:10px;
-
-
-        }
-        .logo img{
-            background-position: right bottom;
-            display: block;
-            margin: 0 auto;
-            height: 100px;
-            width: 150px;
-        }
-    </style>
+  <link href="../assets/bootstrap/css/ilam.css" rel="stylesheet" type="text/css"/>
+ 
 </head>
 
 <body>
-<header class="main-header" style="background-color: rgba(9, 203, 238, 0.85)">
+<header class="main-header" id="main_header">
     <!-- Logo -->
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <h2 style="color: #ffffff" class="text-center"><?php echo $company_name; ?> &nbsp;</h2>
+        <h2  class="text-center" id="company_name"><?php echo $company_name; ?> &nbsp;</h2>
 
         <div class="navbar-custom-menu">
 
@@ -135,7 +64,7 @@ $_SESSION['comp_name'] = $company_name;
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="logo">
-                <img src="../assets/images/logo.png" alt="Logo" width="154" height="92">
+                <img src="../assets/images/logo.png" alt="Logo">
             </div>
         </div>
     </div>
@@ -219,6 +148,7 @@ $_SESSION['comp_name'] = $company_name;
                     success: function (response) {
                         $(".waiting").slideUp();
                         var data = JSON.parse(response);
+						   console.log(data);
                         if (data.Status === "failed") {
                             $(".alert").attr("class", "alert alert-danger");
                             $(".alert").show();

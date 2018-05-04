@@ -27,9 +27,10 @@ foreach ($d_rates as $key => $value) {
 
 foreach ($d_navs as $key => $value) {
     # code...
-    if ($value['security_code'] == '001') {
+    if ($value['security_code'] == 'HAZIN4') {
         $balanced_fund[] = array(strtotime($value['nav_date']) * 1000, (floatval($value['amount'])));
-    } elseif ($value['security_code'] == '003') {
+		
+    } elseif ($value['security_code'] == 'HELA01') {
         $equity_fund[] = array(strtotime($value['nav_date']) * 1000, (floatval($value['amount'])));
     } elseif ($value['security_code'] == '002') {
         $fixed_income[] = array(strtotime($value['nav_date']) * 1000, (floatval($value['amount'])));
@@ -37,7 +38,7 @@ foreach ($d_navs as $key => $value) {
 
     }
 }
-
+//var_dump($balanced_fund);
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -69,7 +70,7 @@ foreach ($d_navs as $key => $value) {
                     <div class="box-header with-border">
                         <i class="fa fa-bar-chart-o"></i>
 
-                        <h3 class="box-title">NIC MONEY MARKET FUND PERFORMANCE</h3>
+                        <h3 class="box-title">ICEA LION  MARKET FUND PERFORMANCE</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -91,7 +92,7 @@ foreach ($d_navs as $key => $value) {
                     <div class="box-header with-border">
                         <i class="fa fa-bar-chart-o"></i>
 
-                        <h3 class="box-title">NIC EQUITY FUND PERFORMANCE</h3>
+                        <h3 class="box-title">ICEA LION  FUND PERFORMANCE</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -206,9 +207,9 @@ foreach ($d_navs as $key => $value) {
         var fixed_income = <?php echo json_encode($fixed_income); ?>;
         var equity_fund = <?php echo json_encode($equity_fund); ?>;
         var balanced_fund = <?php echo json_encode($balanced_fund); ?>;
+        // console.log(balanced_fund);
 
-
-        //console.log(fixed_income);
+         //console.log(fixed_income);
 
         var mmk_ln = {
             data: money_market_ke,
@@ -237,6 +238,8 @@ foreach ($d_navs as $key => $value) {
             color: "#00c0ea",
             label: "Balanced Fund"
         };
+		
+
         $.plot("#line-chart-m", [mmk_ln, mmu_ln], {
             grid: {
                 hoverable: true,
@@ -273,6 +276,7 @@ foreach ($d_navs as $key => $value) {
 
             }
         });
+		
         $.plot("#line-chart-eq", [equity], {
             grid: {
                 hoverable: true,
@@ -310,6 +314,58 @@ foreach ($d_navs as $key => $value) {
 
             }
         });
+		
+		
+		
+		
+		
+		
+		  $.plot("#line-chart-bl", [balanced], {
+            grid: {
+                hoverable: true,
+                borderColor: "#f3f3f3",
+                borderWidth: 1,
+                tickColor: "#f3f3f3"
+            },
+            series: {
+                shadowSize: 0,
+                lines: {
+                    show: true
+                },
+                points: {
+                    show: true,
+                    symbol: "triangle"
+                }
+            },
+            lines: {
+                fill: false,
+                color: ["#3c8dbc", "#f56954"]
+            },
+            yaxis: {
+                axisLabel: 'Price',
+                show: true,
+                axisLabelUseCanvas: true
+            },
+            xaxis: {
+                axisLabel: 'Date',
+                show: true,
+                mode: "time",
+                timeformat: "%Y/%m/%d",
+                min: balanced_fund['nav_date'],
+                max: balanced_fund['nav_date'],
+                axisLabelUseCanvas: true
+
+            }
+        });
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
         $.plot("#line-chart-bl", [balanced], {
             grid: {
                 hoverable: true,
@@ -346,6 +402,10 @@ foreach ($d_navs as $key => $value) {
 
             }
         });
+		
+		*/
+		
+		
         $.plot("#line-chart-fi", [fixed], {
             grid: {
                 hoverable: true,
@@ -382,6 +442,10 @@ foreach ($d_navs as $key => $value) {
 
             }
         });
+		
+		
+		
+
         //Initialize tooltip on hover
         $('<div class="tooltip-inner" id="line-chart-tooltip"></div>').css({
             position: "absolute",

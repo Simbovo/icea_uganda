@@ -1,5 +1,4 @@
 <?php
-
 include('header.php');
 
 use application\controller\dataController;
@@ -63,7 +62,7 @@ $page_action = $lib->encryptStringArray('beneficiaries', 'token321');
                                         </select>
 
                                         <span class="help-block with-errors"></span>
-
+                                        <input type="hidden" value="<?= $member_no ?>" name="member_no" id="member_no" />
                                         <div class="form-group required">
                                             <label class="control-label" for="text">Surname:</label>
                                             <input type="text" name="sname" pattern="[A-Za-z]{1,}" class="form-control"
@@ -184,6 +183,8 @@ $page_action = $lib->encryptStringArray('beneficiaries', 'token321');
                                                    placeholder="example: email@email.com"
                                                    required>
                                             <span class="help-block with-errors"></span>
+
+                                            <input type="hidden" name="token" id="token" value="<?= $page_action ?>"/>
                                         </div>
 
                                         <div class="form-group required">
@@ -272,17 +273,17 @@ $page_action = $lib->encryptStringArray('beneficiaries', 'token321');
 <script src="../assets/dist/js/demo.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function (e) {
-        $("#add_members").submit(function () {
+    jQuery(document).ready(function(e) {
+        $("#add_members").submit(function() {
             $("#loader").show();
             $.ajax({
                 type: 'POST',
                 url: "../helpers/member_registration_minion",
                 data: $("#add_members").serialize(),
-                error: function (error) {
+                error: function(error) {
                     console.log(error);
                 },
-                success: function (response) {
+                success: function(response) {
                     $("#loader").hide();
                     var resp = JSON.parse(response);
                     if (resp.status == "failed") {
@@ -297,7 +298,7 @@ $page_action = $lib->encryptStringArray('beneficiaries', 'token321');
                         $(".alert").attr("class", "alert alert-success");
                         $(".alert").slideDown();
                         $(".alert").html("<strong>Success!</strong>" + resp.message + " - " + resp.member_no);
-                        setTimeout(function () {
+                        setTimeout(function() {
                             window.location.href = resp.uri;
                         }, 4000);
                     } else if (resp == "exists") {
@@ -314,7 +315,7 @@ $page_action = $lib->encryptStringArray('beneficiaries', 'token321');
     });
 </script>
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#dob").datepicker({
             format: "yyyy-dd-mm",
             todayHighlight: true,
@@ -332,11 +333,11 @@ $page_action = $lib->encryptStringArray('beneficiaries', 'token321');
             url: "extras/check_percentage.php",
             data: 'data=' + JSON.stringify(data),
             type: "POST",
-            success: function (data) {
+            success: function(data) {
                 $("#user-availability-status").html(data);
                 $("#loaderIcon").hide();
             },
-            error: function () {
+            error: function() {
             }
         });
     }//19941.68466

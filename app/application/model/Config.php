@@ -32,7 +32,8 @@ class Config {
 Config::write('DBHOST', 'localhost');
 Config::write('DBPORT', '3050');
 
-Config::write('DBNAME', 'C:\Users\Allan\Documents\Database Workbench 5 Pro\NIC\UNITTRUST.FDB');
+//Config::write('DBNAME', 'firebird:dbname=/var/lib/db/UNITTRUST.FDB;charset=UTF8');
+Config::write('DBNAME', 'C:\Users\PRESTONE\Documents\Database Workbench 5 Pro\Icea_uganda\UNITTRUST.FDB');
 Config::write('DBUSER', 'SYSDBA');
 Config::write('DBPASS', 'masterkey');
 Config::write('DBSCHEMA', 'unitmaster');

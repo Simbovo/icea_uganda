@@ -101,19 +101,19 @@ class authController
         try{
             $checkQuery = "SELECT U.USER_ID, U.USERNAME, U.SURNAME, U.USER_TYPE,U.BRANCHID,"
                 . " U.BRANCHNAME, M.REFNO, M.E_MAIL, M.CATEGORY, M.CODE, M.USER_LEVEL FROM MEMBERPASS M "
-                . "INNER JOIN USERSETUP U ON M.USERNAME = U.USERNAME where lower(U.USERNAME) =:username";
+                . "INNER JOIN USERSETUP U ON lower(M.USERNAME) = lower(U.USERNAME) where lower(U.USERNAME) =:username";
             $stmt = $this->dbh->dbConn->prepare($checkQuery);
             $stmt->bindParam(":username", $username);
             $stmt->execute();
-
+ 
             if ($dataset = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
                 //set session variables
                 $_SESSION['user_id'] = $dataset['user_id'];
                 $_SESSION['user_type'] = $dataset['user_type'];
                 $_SESSION['surname'] = $dataset['surname'];
-                $_SESSION['branch_name'] = $dataset['branch_name'];
-                $_SESSION['branch_code'] = $dataset['branch_id'];
+                $_SESSION['branch_name'] = $dataset['branchname'];
+                $_SESSION['branch_code'] = $dataset['branchid'];
 
 
                 $_SESSION['computer_name'] =  $this->getHostByName();

@@ -37,7 +37,7 @@ class transactionController
         $this->branch_name = $_SESSION['branch_name'];
         $this->value_date = lib::value_date();
         $this->comp_name = $_SESSION['computer_name'];
-        $this->current_date = date('d/m/Y');
+        $this->current_date = date('Y-m-d');
         $this->logger = new Logger();
         $this->member_no = $_SESSION['ref_no'];
     }
@@ -46,7 +46,7 @@ class transactionController
         $this->trans_type = "PURCHASE";
         //$server_time = strtotime($_SERVER['REQUEST_TIME']);
 
-        $QryStr = "insert into trans_amount(trans_type, trans_date, member_no, full_name,account_no, amount, sysdate, portfolio, mop, u_name, doc_no, branch_id, bnkcode, bankaccdets, drawername,drawerpayee, value_date, compname)
+        $QryStr = "insert into trans_amount(trans_type, trans_date, member_no, full_name,account_no, amount, sysdate, portfolio, mop, u_name, doc_no, BRANCHID, bnkcode, bankaccdets, drawername,drawerpayee, value_date, compname)
         values (:trans_type,CURRENT_DATE, :mem_no,:full_name,:acc_no,:amount,CURRENT_TIMESTAMP, :portfolio,:mop, :u_name,:doc_no, :branch_id, :bank_code, :bank_branch, :drawer_name, :drawer_payee, :val_date, :compname)";
         try {
             $stmt = $this->dbConnect->dbConn->prepare($QryStr);
@@ -286,14 +286,15 @@ class transactionController
      */
     public function transReport($report_type, $startDate, $endDate) {
         if ($startDate == "" && $endDate == "") {
-            $where_clause = "trans_date = to_date('$this->current_date','dd/mm/yyyy')";
+            $where_clause = "cast(trans_date as date) = '$this->current_date'";
         } else {
-            $where_clause = "trans_date BETWEEN TO_DATE(:startDate, 'dd/mm/yyyy') "
-                . "AND TO_DATE(:endDate,'dd/mm/yyyy')";
+            $where_clause = "cast(trans_date as date) BETWEEN :startDate "
+                . "AND :endDate ";
         }
         $QryStr = "SELECT * FROM TRANS_AMOUNT WHERE $where_clause and
-        CONFIRMED = 1 AND portfolio =:portfolio AND reconciled = 1 AND trans_amount.branchid='$this->branch_code'";
-
+        CONFIRMED = 1 AND portfolio =:portfolio AND reconciled = 1  
+        AND trans_amount.branchid='$this->branch_code'";
+        echo $QryStr;
         try {
             $stmt = $this->dbConnect->dbConn->prepare($QryStr);
 
@@ -587,7 +588,8 @@ class transactionController
 
     }
 
-    public function save_mpayment($mpesa_code, $tstamp, $sms_text, $mpesa_amt, $dest, $mpesa_sender, $mpesa_msisdn, $mpesa_acc, $provider) {
+    public function save_mpayment($mpesa_code, $tstamp, $sms_text, $mpesa_amt, $dest, $mpesa_sender, $mpesa_msisdn, $mpesa_acc, $provider) 
+     {
 
         $rows = $this->view_mpayments($mpesa_code);
 
@@ -627,4 +629,66 @@ class transactionController
         return json_encode($response);
     }
 
+    public function consolidatedSales($startDate = null, $endDate = null) {
+
+        $startDate = date('Y-m-d', strtotime($startDate));
+
+        $endDate = date('Y-m-d', strtotime($endDate));    
+            if (is_null($startDate) && is_null($endDate)) {
+
+                $where_clause = " cast(trans_date as date) = ";
+
+            } elseif (is_null($startDate) && !is_null($endDate)) {
+
+                $where_clause = " cast(trans_date as date) = :endDate";
+
+            } elseif (!is_null($startDate) && is_null($endDate)) {
+
+                $where_clause = " cast(trans_date as date) = :startDate";
+
+            } else {
+
+                $where_clause = " cast(trans_date as date) between :startDate  and :endDate";
+
+            }     
+            $QryStr = "select PORTFOLIO, AMOUNT, NETAMOUNT, TRANS_TYPE, MOP, TRANS_ID, "
+
+            . " cast(noofshares as float) as SHARES, "
+
+            . " MEMBER_NO, FULL_NAME, TRANS_DATE, INITDEPO from trans "
+
+            . " where deleted is null and reversed is null and confirmed =1 "
+
+            . " and " . $where_clause;
+
+        try {
+
+            $sth = $this->dbConnect->dbConn->prepare($QryStr);
+
+            //$sth->bindValue(":company_id", 12);
+
+            is_null($startDate) ? " " : $sth->bindParam(":startDate", $startDate);
+
+            is_null($endDate) ? " " : $sth->bindParam(":endDate", $endDate);
+
+            $sth->execute();
+
+            $result = $sth->fetchAll(\PDO::FETCH_OBJ);
+
+            $response['status'] = "success";
+
+            $response['data'] = $result;
+
+        } catch (\PDOException $ex) {
+
+            $response['status'] = 'failed';
+
+            $response['data'] = null;
+
+        }
+
+        return json_encode($response);
+
+    }
+   
 }

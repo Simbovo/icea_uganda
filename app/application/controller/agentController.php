@@ -36,8 +36,8 @@ class agentController {
         }
     }
 
-    private function generateAgentNo() {
-        $QryStr = "select nextval('agents_agent_no_seq')";
+     private function generateAgentNo() {
+        $QryStr = 'select gen_id(GENAGENT, 1) as lastno from rdb$database';
         try {
             $sth = $this->dbConnection->dbConn->prepare($QryStr);
             $sth->execute();
@@ -47,15 +47,15 @@ class agentController {
         }
 
         if (strlen($id) == 1) {
-            $this->memberNo = "000" . $id;
+            $agentNo = "000" . $id;
         } else if (strlen($id) == 2) {
-            $this->memberNo = "00" . $id;
+            $agentNo = "00" . $id;
         } else if (strlen($id) == 3) {
-            $this->memberNo = "0" . $id;
+            $agentNo = "0" . $id;
         } else {
-            $this->memberNo = $id;
+            $agentNo = $id;
         }
-        return $this->memberNo;
+        return $agentNo;
     }
 
     public function checkIfExists($email, $idno) {
@@ -113,7 +113,7 @@ class agentController {
         }
     }
 
-    public function registerAgent($data_) {
+  public function registerAgent($data_) {
         $agent_no = $this->generateAgentNo();
         $data = json_decode($data_);
         list($bank_id, $bank) = explode("-", $data->bank_name, 2);
@@ -124,26 +124,24 @@ class agentController {
         $QryStr = "insert into agents(agent_no,agent_name, post_address,phys_address,country,town,gsm_no,e_mail,id_no, pin_no, bankcode, bankdesc,  accountno,catid, catname, typeid, typename)
         VALUES (:agent_no,:agent_name,:post_address,:phys_address,:country,:town,:gsm_no,:email,:id_no,:pin_no, :bank_code, :bank_desc, :account_no,:catid,:catname,:typeid, :typename)";
         try {
-
-
             $sth = $this->dbConnection->dbConn->prepare($QryStr);
-            $sth->bindParam(":agent_no", $agent_no);
-            $sth->bindParam(":agent_name", $data->agent_name);
-            $sth->bindParam(":post_address", $data->post_address);
-            $sth->bindParam(":phys_address", $data->phys_address);
-            $sth->bindParam(":country", $data->country);
-            $sth->bindParam(":town", $data->town);
-            $sth->bindParam(":gsm_no", $data->gsm_no);
-            $sth->bindParam(":email", $data->email);
-            $sth->bindParam(":id_no", $data->id_no);
-            $sth->bindParam(":pin_no", $data->pin_no);
-            $sth->bindParam(":bank_code", $bank_id);
-            $sth->bindParam(":bank_desc", $bank);
-            $sth->bindParam(":account_no", $data->account_no);
-            $sth->bindParam(":catid",$cat_id);
-            $sth->bindParam(":catname", $category);
-            $sth->bindParam(":typeid", $type_id);
-            $sth->bindParam(":typename", $agent_type);
+            $sth->bindParam(":agent_no", $agent_no, \PDO::PARAM_STR);
+            $sth->bindParam(":agent_name", $data->agent_name, \PDO::PARAM_STR);
+            $sth->bindParam(":post_address", $data->post_address, \PDO::PARAM_STR);
+            $sth->bindParam(":phys_address", $data->phys_address, \PDO::PARAM_STR);
+            $sth->bindParam(":country", $data->country, \PDO::PARAM_STR);
+            $sth->bindParam(":town", $data->town, \PDO::PARAM_STR);
+            $sth->bindParam(":gsm_no", $data->gsm_no, \PDO::PARAM_STR);
+            $sth->bindParam(":email", $data->email, \PDO::PARAM_STR);
+            $sth->bindParam(":id_no", $data->id_no, \PDO::PARAM_STR);
+            $sth->bindParam(":pin_no", $data->pin_no, \PDO::PARAM_STR);
+            $sth->bindParam(":bank_code", $bank_id, \PDO::PARAM_STR);
+            $sth->bindParam(":bank_desc", $bank, \PDO::PARAM_STR);
+            $sth->bindParam(":account_no", $data->account_no, \PDO::PARAM_STR);
+            $sth->bindParam(":catid",$cat_id, \PDO::PARAM_STR);
+            $sth->bindParam(":catname", $category, \PDO::PARAM_STR);
+            $sth->bindParam(":typeid", $type_id, \PDO::PARAM_STR);
+            $sth->bindParam(":typename", $agent_type, \PDO::PARAM_STR);
 
             $res = $sth->execute();
 
@@ -152,7 +150,6 @@ class agentController {
             echo $ex->getMessage();
         }
     }
-
     public function getAgentTypes() {
         $QryStr = "SELECT * FROM agenttype order by typeid asc";
         try {

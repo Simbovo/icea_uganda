@@ -555,10 +555,10 @@ class memberController
 
             $member_no = $this->generateMemberNo();
             $QrtStrMember = "INSERT INTO members (member_no, title, firstname, surname, othernames, allnames, "
-                . "post_address, reg_date, phys_address, hse_no, town, country, gsm_no,e_mail, id_no, dob,gender, maritalstatus, "
+                . "post_address, reg_date, hse_no, town, country, gsm_no,e_mail, id_no, dob,gender, maritalstatus, "
                 . "comments, taxexempt, resident, branchid, branchname, sms_ntfy, smsqry_accept, statementtype, company_id) "
                 . "VALUES(:member_no, :title, :f_name, :surname, :other_name, :full_name, :post_address, "
-                . ":phys_address, CURRENT_DATE, :hse_no, :town, :country, :gsm_no,:e_mail, :id_no, :dob,:gender,  :marital_status,:comments, "
+                . " CURRENT_DATE, :hse_no, :town, :country, :gsm_no,:e_mail, :id_no, :dob,:gender,  :marital_status,:comments, "
                 . ":tax_exempt, :resident,  :branch_id, :branch_name,:sms_notify, :sms_query, :statement_via, 2)";
 
             $QryStrBank = " insert into membersbankdetails(memberno, bankname, bankcode, fullnames, branch, branch_id, accountname,accounttype, accountno)"
@@ -595,7 +595,7 @@ class memberController
             $sthMember->bindParam(":branch_name", $branch_name, \PDO::PARAM_STR);
             $sthMember->bindParam(":sms_notify", $data->sms_notify, \PDO::PARAM_STR);
             $sthMember->bindParam(":sms_query", $data->sms_enquiry, \PDO::PARAM_STR);
-            $sthMember->bindParam(":phys_address", $data->pLocation, \PDO::PARAM_STR);
+           // $sthMember->bindParam(":phys_address",  $data->pLocation, \PDO::PARAM_STR);
             $sthMember->bindParam(":statement_via", $data->statement_via, \PDO::PARAM_STR);
 
 

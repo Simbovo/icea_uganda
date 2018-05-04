@@ -170,10 +170,10 @@ $agent_types = $agent_ctl->getAgentTypes();
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group required">
-                                    <label class="control-label" for="Bank">Bank Name: <span
+                                    <label class="control-label" for="bank_name">Bank Name: <span
                                             class="glyphicon-asterisk"></span>
                                     </label>
-                                    <select name="bank_name" id="bank_name" class="form-control" required="required">
+                                    <select name="bank_name" id="bank_name" class="form-control bank" required="required">
                                         <option value="">----Select Bank----</option>
                                         <?php
                                         foreach ($banks as $bank) {
@@ -321,10 +321,10 @@ $agent_types = $agent_ctl->getAgentTypes();
     });
 </script>
 <script>
-    $(document).on("change", '#bank_name', function (e) {
+    $(document).on("change", '.bank', function (e) {
         $.ajax({
             type: "POST",
-            data: $("#bank_name").serialize(),
+            data: $(".bank").serialize(),
             url: 'extras/getbnkbranch.php',
             success: function (response) {
                 $("#branches").html(response);

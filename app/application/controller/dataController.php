@@ -5,8 +5,7 @@ namespace application\controller;
 use application\model\DbConnection;
 use application\library\Logger;
 
-class dataController
-{
+class dataController {
 
     var $dbh;
     private $staff_id;
@@ -121,7 +120,7 @@ class dataController
     }
 
     public function getBankDetails() {
-        $QryStr = "SELECT * FROM bank_details ORDER BY bank_name";
+        $QryStr = "SELECT * FROM bankdetails ORDER BY bankname";
         try {
             $stmt = $this->dbh->dbConn->prepare($QryStr);
             $stmt->execute();
@@ -134,13 +133,13 @@ class dataController
         }
     }
 
-    public function getBankBranches($bank_code = "") {
+    public function getBankBrancheByBankCode($bank_code) {
         $QryStr = "select * from bank_branches where bank_code = :bank_code order by branch_name";
         try {
             $stmt = $this->dbh->dbConn->prepare($QryStr);
-            if ($bank_code != "") {
-                $stmt->bindParam(":bank_code", $bank_code);
-            }
+
+            $stmt->bindParam(":bank_code", $bank_code);
+
             $stmt->execute();
 
             $result = $stmt->fetchAll(\PDO::FETCH_OBJ);
@@ -207,7 +206,7 @@ class dataController
      * @param $sec_code
      * @return mixed
      */
-       public function getMaxByNavDate($sec_code) {
+    public function getMaxByNavDate($sec_code) {
 
         $QryStr = "SELECT  N.NAV_DATE,  N.AMOUNT, N.P_PRICE, S.DESCRIPT FROM  NAVS N
                   INNER JOIN SECURITIES S ON N.SECURITY_CODE = S.SECURITY_CODE
@@ -226,7 +225,6 @@ class dataController
             echo $ex->getMessage();
         }
     }
-
 
     public function getMaxNavDate() {
 
@@ -248,7 +246,6 @@ class dataController
             echo $ex->getMessage();
         }
     }
-
 
     public function totalRegisteredClients() {
         $QryStr = "SELECT count(*) FROM members WHERE confirmed IS NOT NULL ";
@@ -414,15 +411,16 @@ class dataController
             echo $e->getMessage();
         }
     }
-/**
-    public function navdate() {
-        $QryStr = "SELECT  N.NAV_DATE,  N.AMOUNT, N.P_PRICE, S.DESCRIPT FROM  NAVS N
-                  INNER JOIN SECURITIES S ON N.SECURITY_CODE = S.SECURITY_CODE
-                  WHERE CAST(N.NAV_DATE AS DATE) = (SELECT Max(N.NAV_DATE)
-                  FROM NAVS N WHERE N.CONFIRMD IS NOT NULL) AND N.CONFIRMD IS NOT NULL";
-    }
- *
-*/
+
+    /**
+      public function navdate() {
+      $QryStr = "SELECT  N.NAV_DATE,  N.AMOUNT, N.P_PRICE, S.DESCRIPT FROM  NAVS N
+      INNER JOIN SECURITIES S ON N.SECURITY_CODE = S.SECURITY_CODE
+      WHERE CAST(N.NAV_DATE AS DATE) = (SELECT Max(N.NAV_DATE)
+      FROM NAVS N WHERE N.CONFIRMD IS NOT NULL) AND N.CONFIRMD IS NOT NULL";
+      }
+     *
+     */
     public function todaysMembers() {
         $QryStr = "SELECT COUNT(*) FROM MEMBERS WHERE CONFIRMED IS NULL AND MEMBERS.BRANCHID = $this->branch_code
                     AND REG_DATE = TO_DATE('$this->date','dd/mm/yyyy')";

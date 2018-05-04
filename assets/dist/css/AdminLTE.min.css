@@ -92,10 +92,11 @@ body {
 }
 
 .main-footer {
-    background: #fff;
+    background: #c5960c;
     padding: 15px;
-    color: #444;
-    border-top: 1px solid #d2d6de
+    color: #fff;
+    border-top: 1px solid #d2d6de;
+	background-color: #c5960c
 }
 
 .fixed .main-header, .fixed .main-sidebar, .fixed .left-side {

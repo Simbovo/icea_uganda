@@ -80,7 +80,7 @@ include('../bootstrap.php');
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>U</b>MO</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>NIC </b>Bank</span>
+                    <span class="logo-lg"><b><?php echo $company_name; ?> </b></span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top" role="navigation">

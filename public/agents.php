@@ -43,9 +43,9 @@ $agent_types = $agent_ctl->getAgentTypes();
                         <div class="box">
                             <div class="box-header">
                                 <h3 class="box-title">Agents</h3>
-                                <button class="btn btn-primary glossy-clear pull-right" data-toggle="modal"
-                                        data-target="#addAgentModal"
-                                        <i class="fa fa-plus"></i>Add new agent</button>
+                                 <a href="add-agent" class="btn btn-primary glossy-clear pull-right">
+                                    <i class="fa fa-plus"></i>Add new agent
+                                </a>
                             </div>
                             <!-- /.box-header -->
 
@@ -631,7 +631,14 @@ $agent_types = $agent_ctl->getAgentTypes();
                                 <option value="">----Select Bank----</option>
                                 <?php
                                 foreach ($banks as $bank) {
-                                    echo "<option value='" . $bank->bankcode . "-" . $bank->bankname . "'>" . $bank->bankname . "</option>";
+                                   
+                                    // echo "<option value='".$bank->bank_code."'>".$bank->bank_name."</option>";
+                                    echo "<option value='".$bank->bank_code."-".$bank->bank_name."'>".$bank->bank_name."</option>";
+                               
+                                   // echo "<option value='" . $bank->bank_code . "'>" . $bank->bank_name . "</option>";
+                               
+                                    
+                                    
                                 }
                                 ?>
                             </select>
